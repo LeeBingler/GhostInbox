@@ -1,0 +1,8 @@
+.generateEmail-container {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+
+    flex-direction: column;
+    row-gap: 10px;
+}
