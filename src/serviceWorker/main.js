@@ -3,6 +3,7 @@ import InboxHandler from "./InboxHandler";
 
 const readyTabs = new Set();
 
+// Handshake
 chrome.runtime.onMessage.addListener((msg, sender) => {
     if (msg.type === "READY_FOR_EMAILS" && sender.tab?.id != null) {
         readyTabs.add(sender.tab.id);
@@ -14,7 +15,7 @@ chrome.action.onClicked.addListener((tab) => {
     chrome.tabs.sendMessage(tab.id, {type: "OPEN_SIDEBAR"});
 });
 
-// Listener pour recevoir les messages depuis sidebar / content scripts
+// Listener to receive for sidebar / content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "GENERATE_EMAIL") {
         Mailjs.createAccount()
@@ -30,6 +31,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === "LISTEN_INBOX") {
         Mailjs.listenInbox()
+            .then(res => sendResponse(res))
+            .catch(err => sendResponse(err));
+        return true;
+    }
+
+    if (message.type === "GET_MESSAGE") {
+        Mailjs.getMessage(message.data.id)
             .then(res => sendResponse(res))
             .catch(err => sendResponse(err));
         return true;

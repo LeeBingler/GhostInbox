@@ -13,7 +13,7 @@ export default function GenerateEmail({isDelete}) {
 
     return (
         <div className="generateEmail-container">
-            <button disabled={loading} onClick={sendMessage}>
+            <button disabled={loading} onClick={() => sendMessage()}>
                 {loading ? "Generating..." : "Generate Email"}
             </button>
 

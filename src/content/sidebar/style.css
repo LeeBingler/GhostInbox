@@ -63,6 +63,10 @@
     padding-bottom: 10px;
 }
 
+.sidebar-container hr {
+    margin: 10px 0px;
+}
+
 
 /* MEDIA SCHEME */
 @media (prefers-color-scheme: light) {

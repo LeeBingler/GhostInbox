@@ -1,0 +1,25 @@
+.sidebar-container .maildetail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.maildetail-container .maildetail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.maildetail-container .maildetail-info {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.maildetail-info .subject {
+    font-weight: bold;
+}
+
+.maildetail-container .maildetail-html {
+    background-color: rgb(17, 17, 17);
+}

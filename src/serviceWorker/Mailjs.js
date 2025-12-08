@@ -74,7 +74,13 @@ class Mailjs {
         if (!this.address || !this.id || !this.token)
             throw new Error("Mailbox not initialized");
         const res = await this._send("/messages");
-        if (!res) return res;
+        return res;
+    }
+
+    async getMessage(messageId) {
+        if (!this.address || !this.id || !this.token || !messageId)
+            throw new Error("Mailbox not initialized");
+        const res = await this._send("/messages/" + messageId);
         return res;
     }
 
