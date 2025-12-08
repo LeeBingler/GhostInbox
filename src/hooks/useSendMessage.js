@@ -7,11 +7,11 @@ export default function useSendMessage(message) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    async function sendMessage() {
+    async function sendMessage(body = null) {
         setLoading(true);
         setError(null);
 
-        const response = await sendMessageAsync({ type: message });
+        const response = await sendMessageAsync({ type: message, body: body});
         //console.log(message, response);
         if (response.status) {
             setData(response.data);
