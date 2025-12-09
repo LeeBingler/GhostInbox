@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, Fragment } from "react";
+import parse from "html-react-parser"
+
 import useSendMessage from "../../hooks/useSendMessage";
 import formatDate from "../../utils/formatDate";
 
@@ -38,9 +40,9 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
 
                     <div className="maildetail-html">
                         {data.html.map((element, i ) =>  (
-                            <div key={i}>
-                                {element}
-                            </div>
+                            <Fragment key={i}>
+                                {parse(element)}
+                            </Fragment>
                         ))}
                     </div>
                 </div>
