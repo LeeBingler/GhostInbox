@@ -6,7 +6,7 @@ export default function MailPreview({data, setEmailIDClicked}) {
     return (
         <div className="mailpreview-card" onClick={() => setEmailIDClicked(id)}>
             <div className="mailpreview-header">
-                <p className="from">{from.name}</p>
+                <p className="from">From: {from.name}</p>
                 <p className="date">{formatDate(updatedAt)}</p>
             </div>
             <p className="subject">{subject}</p>

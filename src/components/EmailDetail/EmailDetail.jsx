@@ -33,7 +33,7 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
                     <div className="maildetail-info">
                         <div>
                             <p className="from">From: {data.from.name}</p>
-                            <p>{data.from.address}</p>
+                            <p>Address: {data.from.address}</p>
                         </div>
                         <p className="date">{formatDate(data.createdAt)}</p>
                     </div>
