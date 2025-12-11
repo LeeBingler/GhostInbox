@@ -43,6 +43,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === "GET_ATTACHEMENT") {
+        Mailjs.getAttachementImage(message.data.link)
+            .then(res => sendResponse(res))
+            .catch(err => sendResponse(err));
+        return true;
+    }
+
     if (message.type === "DELETE_ACCOUNT") {
         Mailjs.deleteMe()
             .then((res) => {

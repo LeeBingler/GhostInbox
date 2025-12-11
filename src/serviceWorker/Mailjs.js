@@ -1,3 +1,5 @@
+import blobToBase64 from "../utils/blobToBase64";
+
 class Mailjs {
     constructor() {
         // Make this class a singleton
@@ -84,6 +86,14 @@ class Mailjs {
         return res;
     }
 
+    async getAttachementImage(link) {
+        if (!this.address || !this.id || !this.token || !link)
+            throw new Error("Mailbox not initialized");
+        const res = await this._send(link);
+        console.log("getAttachmentImage res", res);
+        return res;
+    }
+
     async deleteAccount(accountId) {
         const res = await this._send("/accounts/" + accountId, "DELETE");
         if (!res) return res;
@@ -123,6 +133,7 @@ class Mailjs {
 
         let data = null;
         if (contentType?.startsWith("application/json")) data = await res.json();
+        else if (contentType?.includes("image")) data = await blobToBase64(await res.blob());
         else data = await res.text();
 
         return {
