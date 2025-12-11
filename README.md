@@ -1,13 +1,14 @@
-# React + Vite + CRXJS
+# GhostInbox
 
-This template helps you quickly start developing Chrome extensions with React and Vite. It includes the CRXJS Vite plugin for seamless Chrome extension development.
+## About GhostInbox
 
-## Features
+GhostInbox is a chrome extension that help you generate disposable email address :
 
-- React with modern syntax
-- Vite build tool
-- CRXJS Vite plugin integration
-- Chrome extension manifest configuration
+**Easily**. In 2 click, you make a disposable email address, receive the message that you want and never see it again.
+
+**Without browsing to get your address**. It's an extension ready to use, always open on your google chrome.
+
+**Free, anonymous and temporary**. It use a free API to manage all the email address. 
 
 ## Quick Start
 
@@ -33,19 +34,26 @@ npm run build
 
 ## Project Structure
 
-- `src/popup/` - Extension popup UI
+- `src/serviceWorker/` - Extension background
 - `src/content/` - Content scripts
+- `src/hooks/` - React hooks use in content
+- `src/utils` - Script in Javascript that is utils
 - `manifest.config.js` - Chrome extension manifest configuration
+
+## Technical details
+
+- React with modern syntax
+- Vite build tool
+- CRXJS Vite plugin integration
+- Chrome extension manifest configuration
+- API Mail.tm to generate and manage disposable email address
 
 ## Documentation
 
 - [React Documentation](https://reactjs.org/)
 - [Vite Documentation](https://vitejs.dev/)
 - [CRXJS Documentation](https://crxjs.dev/vite-plugin)
+- [API.Mail.tm Documentation](https://docs.mail.tm/)
 
-## Chrome Extension Development Notes
-
-- Use `manifest.config.js` to configure your extension
-- The CRXJS plugin automatically handles manifest generation
-- Content scripts should be placed in `src/content/`
-- Popup UI should be placed in `src/popup/`
+## License
+This project is released under the MIT License. You are free to use, modify, and distribute it as you wish.
