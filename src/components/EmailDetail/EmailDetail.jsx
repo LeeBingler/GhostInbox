@@ -5,13 +5,14 @@ import useSendMessage from "../../hooks/useSendMessage";
 import formatDate from "../../utils/formatDate";
 
 import "./styles.css"
+import AttachmentImage from "./AttachmentImage";
 
 export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
     const { data, error, sendMessage, resetAll} = useSendMessage("GET_MESSAGE");
 
     useEffect(() => {
         sendMessage({id: emailIDClicked});
-    }, []);
+    }, [emailIDClicked]);
 
     return (
         <div>
@@ -44,6 +45,22 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
                                 {parse(element)}
                             </Fragment>
                         ))}
+                    </div>
+
+                    <div>
+                        {data.hasAttachments && data.attachments.map((att, i) => {
+                            if (att.contentType.startsWith("image/")) {
+                                return (
+                                    <AttachmentImage
+                                        key={att.id}
+                                        downloadUrl={att.downloadUrl}
+                                        filename={att.filename}
+                                    />
+                                )
+                            }
+
+                            return null;
+                        })}
                     </div>
                 </div>
             )}
