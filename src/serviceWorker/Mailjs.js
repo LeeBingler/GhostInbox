@@ -16,6 +16,19 @@ class Mailjs {
         this.password = "";
     }
 
+    getEmail() {
+        const hasCredential = this.email && this.password
+
+        return {
+            status: hasCredential,
+            statusCode: hasCredential ? 200 : 404,
+            message: hasCredential ? "ok" : "email not found",
+            data: hasCredential 
+            ? { email: this.email, password: this.password }
+            : {}
+        }
+    }
+
     getDomains() {
         return this._send("/domains");
     }

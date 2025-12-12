@@ -4,9 +4,12 @@ import InboxHandler from "./InboxHandler";
 const readyTabs = new Set();
 
 // Handshake
-chrome.runtime.onMessage.addListener((msg, sender) => {
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg.type === "READY_FOR_EMAILS" && sender.tab?.id != null) {
         readyTabs.add(sender.tab.id);
+        Mailjs.getEmail()
+            .then(res => sendResponse(res))
+            .catch(error => sendResponse(error))
     }
 });
 
