@@ -4,12 +4,9 @@ import InboxHandler from "./InboxHandler";
 const readyTabs = new Set();
 
 // Handshake
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((msg, sender) => {
     if (msg.type === "READY_FOR_EMAILS" && sender.tab?.id != null) {
         readyTabs.add(sender.tab.id);
-        Mailjs.getEmail()
-            .then(res => sendResponse(res))
-            .catch(error => sendResponse(error))
     }
 });
 
@@ -25,6 +22,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((res) => {
                 sendResponse(res);
                 InboxHandler.setTabID(sender.tab.id);
+                InboxHandler.unping();
                 InboxHandler.ping();
             })
             .catch(err => sendResponse(err));
@@ -50,6 +48,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.getAttachementImage(message.data.link)
             .then(res => sendResponse(res))
             .catch(err => sendResponse(err));
+        return true;
+    }
+
+    if (message.type === "GET_CURRENT_MAIL") {
+        let res = Mailjs.getEmail();
+        sendResponse(res);
+
+        if (res.status) {
+            InboxHandler.setTabID(sender.tab.id);
+            InboxHandler.unping();
+            InboxHandler.ping();
+        }
         return true;
     }
 

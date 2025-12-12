@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 
-import useSendMessage from "../../hooks/useSendMessage";
+import useGenerateEmail from "../../hooks/useGenerateEmail";
 
 import "./styles.css"
 
 export default function GenerateEmail({isDelete}) {
-    const { data, loading, error, sendMessage, resetAll } = useSendMessage("GENERATE_EMAIL");
-    
+    const { data, loading, error, sendMessage, resetAll } = useGenerateEmail();
+
     useEffect(() => {
         resetAll();
     }, [isDelete])
