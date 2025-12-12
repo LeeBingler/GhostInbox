@@ -8,6 +8,8 @@ import "./styles.css"
 
 export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
     const { data, error, sendMessage, resetAll} = useSendMessage("GET_MESSAGE");
+    // New Line: For deleting the email
+    const { sendMessage: deleteMessage } = useSendMessage("DELETE_MESSAGE"); 
 
     useEffect(() => {
         sendMessage({id: emailIDClicked});
@@ -23,6 +25,20 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
                 <div className="maildetail-container">
                     <div className="maildetail-header">
                         <h2>Subject: {data.subject}</h2>
+                        
+                        {/* NEW DELETE BUTTON ADDED HERE */}
+                        <button onClick={() => {
+                            // 1. Call delete function
+                            deleteMessage({id: emailIDClicked}); 
+                            
+                            // 2. ISSUE FIX: Redirect back to inbox by closing detail view
+                            setEmailIDClicked(null); 
+                            resetAll();
+                        }}>
+                            Delete
+                        </button>
+                        
+                        {/* EXISTING CLOSE BUTTON */}
                         <button onClick={() => {
                             setEmailIDClicked(null);
                             resetAll();
