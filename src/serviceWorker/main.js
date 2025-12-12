@@ -21,9 +21,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.createAccount()
             .then((res) => {
                 sendResponse(res);
-                InboxHandler.setTabID(sender.tab.id);
-                InboxHandler.unping();
-                InboxHandler.ping();
+                InboxHandler.setInboxHandler(sender.tab.id);
             })
             .catch(err => sendResponse(err));
 
@@ -56,9 +54,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse(res);
 
         if (res.status) {
-            InboxHandler.setTabID(sender.tab.id);
-            InboxHandler.unping();
-            InboxHandler.ping();
+            InboxHandler.setInboxHandler(sender.tab.id);
         }
         return true;
     }
