@@ -8,6 +8,12 @@ class InboxHandler {
         this.tabId = null;
     }
 
+    setInboxHandler(tabID) {
+        this.setTabID(tabID);
+        this.unping();
+        this.ping();
+    }
+
     setTabID(tabID) {
         this.tabId = tabID;
     }
@@ -26,7 +32,8 @@ class InboxHandler {
     }
 
     unping() {
-        clearInterval(this.interval);
+        if (this.interval)
+            clearInterval(this.interval);
     }
 }
 

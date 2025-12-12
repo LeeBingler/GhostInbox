@@ -8,7 +8,6 @@ export default function useDeleteAccount() {
 
     async function deleteAccount() {
         const res = await sendMessage();
-        if (!res.status) return;
 
         setIsDelete(true);
 

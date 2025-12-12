@@ -10,10 +10,23 @@ class Mailjs {
 
         this.baseUrl = "https://api.mail.tm";
 
-        this.email = "";
+        this.address = "";
         this.id = "";
         this.token = "";
         this.password = "";
+    }
+
+    getEmail() {
+        const hasCredential = this.address != "" && this.password != ""
+
+        return {
+            status: hasCredential,
+            statusCode: hasCredential ? 200 : 404,
+            message: hasCredential ? "ok" : "email not found",
+            data: hasCredential 
+            ? { address: this.address, password: this.password }
+            : {}
+        }
     }
 
     getDomains() {
@@ -98,7 +111,7 @@ class Mailjs {
         const res = await this._send("/accounts/" + accountId, "DELETE");
         if (!res) return res;
 
-        this.email = "";
+        this.address = "";
         this.id = "";
         this.token = "";
         this.password = "";

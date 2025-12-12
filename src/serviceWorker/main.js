@@ -21,8 +21,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.createAccount()
             .then((res) => {
                 sendResponse(res);
-                InboxHandler.setTabID(sender.tab.id);
-                InboxHandler.ping();
+                InboxHandler.setInboxHandler(sender.tab.id);
             })
             .catch(err => sendResponse(err));
 
@@ -47,6 +46,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.getAttachementImage(message.data.link)
             .then(res => sendResponse(res))
             .catch(err => sendResponse(err));
+        return true;
+    }
+
+    if (message.type === "GET_CURRENT_MAIL") {
+        let res = Mailjs.getEmail();
+        sendResponse(res);
+
+        if (res.status) {
+            InboxHandler.setInboxHandler(sender.tab.id);
+        }
         return true;
     }
 
