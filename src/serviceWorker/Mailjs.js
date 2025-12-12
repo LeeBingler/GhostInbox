@@ -17,7 +17,7 @@ class Mailjs {
     }
 
     getEmail() {
-        const hasCredential = this.address && this.password
+        const hasCredential = this.address != "" && this.password != ""
 
         return {
             status: hasCredential,
