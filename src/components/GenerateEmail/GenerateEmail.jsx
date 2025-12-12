@@ -9,7 +9,7 @@ export default function GenerateEmail({isDelete}) {
     
     useEffect(() => {
         resetAll();
-    }, [isDelete]) // Check why delete is not working
+    }, [isDelete])
 
     return (
         <div className="generateEmail-container">
