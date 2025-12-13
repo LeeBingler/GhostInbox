@@ -2,14 +2,16 @@ import Mailjs from "./Mailjs";
 
 class InboxHandler {
     constructor() {
-        this.emailSet = false;
         this.interval = null;
         this.dataInbox = null;
-        this.tabId = null;
+        this.tabIdSet = null;
     }
 
-    setInboxHandler(tabID) {
-        this.setTabID(tabID);
+    setInboxSet(setTab) {
+        this.tabIdSet = setTab;
+    }
+
+    setInboxHandler() {
         this.unping();
         this.ping();
     }
@@ -23,10 +25,14 @@ class InboxHandler {
             Mailjs.listenInbox()
                 .then(res => {
                     this.dataInbox = res.data;
-                    chrome.tabs.sendMessage(this.tabId, { type: "INBOX_UPDATE", response: res });
+                    this.tabIdSet.forEach(tabId => {
+                        chrome.tabs.sendMessage(tabId, { type: "INBOX_UPDATE", response: res });
+                    });
                 })
                 .catch(err => {
-                    chrome.tabs.sendMessage(this.tabId, { type: "INBOX_ERROR", response: err });
+                    this.tabIdSet.forEach(tabId => {
+                        chrome.tabs.sendMessage(tabId, { type: "INBOX_ERROR", response: err });
+                    });
                 });
         }, 1000);
     }

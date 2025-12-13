@@ -2,6 +2,7 @@ import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
 
 const readyTabs = new Set();
+InboxHandler.setInboxSet(readyTabs);
 
 // Handshake
 chrome.runtime.onMessage.addListener((msg, sender) => {
@@ -21,7 +22,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.createAccount()
             .then((res) => {
                 sendResponse(res);
-                InboxHandler.setInboxHandler(sender.tab.id);
+                InboxHandler.setInboxHandler();
             })
             .catch(err => sendResponse(err));
 
@@ -54,7 +55,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse(res);
 
         if (res.status) {
-            InboxHandler.setInboxHandler(sender.tab.id);
+            InboxHandler.setInboxHandler();
         }
         return true;
     }
