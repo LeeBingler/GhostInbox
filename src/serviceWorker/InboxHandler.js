@@ -6,6 +6,7 @@ class InboxHandler {
         this.dataInbox = null;
         this.tabIdReadySet = null;
         this.tabIdOpenSet = null;
+        this.activeTab = null;
     }
 
     setInboxReadyTabSet(setTab) {
@@ -18,6 +19,11 @@ class InboxHandler {
 
     setTabID(tabID) {
         this.tabId = tabID;
+    }
+
+    getActiveTabs() {
+        return [...this.tabIdReadySet]
+            .filter(tabId => this.tabIdOpenSet.has(tabId));
     }
 
     ping() {
