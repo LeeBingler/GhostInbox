@@ -6,9 +6,9 @@ export default defineManifest({
   name: pkg.name,
   version: pkg.version,
   icons: {
-    24: 'icons/icon24.ico', // FIXED: Removed 'public/'
-    48: 'icons/icon48.ico', // FIXED: Removed 'public/'
-    96: 'icons/icon96.ico', // FIXED: Removed 'public/'
+    24: 'icons/icon24.ico',
+    48: 'icons/icon48.ico',
+    96: 'icons/icon96.ico',
   },
   permissions: [
     "tabs",
@@ -19,9 +19,9 @@ export default defineManifest({
   ],
   action: {
     default_icon: {
-     24: 'icons/icon24.ico', // FIXED: Removed 'public/'
-      48: 'icons/icon48.ico', // FIXED: Removed 'public/'
-      96: 'icons/icon96.ico', // FIXED: Removed 'public/'
+      24: 'icons/icon24.ico',
+      48: 'icons/icon48.ico',
+      96: 'icons/icon96.ico',
     },
   },
   content_scripts: [{
