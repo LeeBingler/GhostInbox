@@ -2,6 +2,9 @@ import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
 
 const readyTabs = new Set();
+const openTabs = new Set();
+InboxHandler.setInboxReadyTabSet(readyTabs);
+InboxHandler.setInboxOpenTabsSet(openTabs);
 
 // Handshake
 chrome.runtime.onMessage.addListener((msg, sender) => {
@@ -13,6 +16,16 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
 chrome.action.onClicked.addListener((tab) => {
     if (!tab.id) return;
     chrome.tabs.sendMessage(tab.id, {type: "OPEN_SIDEBAR"});
+    openTabs.add(tab.id);
+});
+
+chrome.tabs.onRemoved.addListener((tabId) => {
+    readyTabs.delete(tabId);
+    openTabs.delete(tabId);
+
+    if (readyTabs.size === 0 || openTabs.size === 0) {
+        InboxHandler.unping();
+    }
 });
 
 // Listener to receive for sidebar / content script
@@ -21,7 +34,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         Mailjs.createAccount()
             .then((res) => {
                 sendResponse(res);
-                InboxHandler.setInboxHandler(sender.tab.id);
+                InboxHandler.startInbox();
             })
             .catch(err => sendResponse(err));
 
@@ -54,7 +67,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse(res);
 
         if (res.status) {
-            InboxHandler.setInboxHandler(sender.tab.id);
+            InboxHandler.startInbox();
         }
         return true;
     }
