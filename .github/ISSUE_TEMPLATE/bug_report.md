@@ -20,6 +20,10 @@ Steps to reproduce the behavior:
 ### Expected Behavior
 A clear and concise description of what you expected to happen.
 
+### Scope
+The scope of the issue for people that want to work on it
+
+
 ### Desktop:
  - OS: [e.g. iOS]
  - Browser [e.g. chrome, safari]
