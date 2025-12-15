@@ -6,9 +6,18 @@ export default function AttachmentImage({ downloadUrl, filename }) {
     const [src, setSRC] = useState(null);
 
     useEffect(() => {
+        let isMounted = true;
+
         sendMessage({link: downloadUrl})
-            .then((res) => setSRC(res.data))
+            .then((res) => {
+                if (isMounted)
+                    setSRC(res.data)
+            })
             .catch((e) => console.error(e))
+
+        return () => {
+            isMounted = false;
+        }
     }, [downloadUrl])
 
     if (loading) return <p>Attachement loading...</p>
