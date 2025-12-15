@@ -31,8 +31,10 @@ class InboxHandler {
             Mailjs.listenInbox()
                 .then(res => {
                     this.dataInbox = res.data;
+                    console.log("---interval ping---");
                     this.tabIdReadySet.forEach(tabId => {
                         chrome.tabs.sendMessage(tabId, { type: "INBOX_UPDATE", response: res });
+                        console.log(tabId, res)
                     });
                 })
                 .catch(err => {
@@ -49,7 +51,7 @@ class InboxHandler {
     }
 
     startInbox() {
-        if (this.setInboxOpenTabsSet > 0 && this.setInboxReadyTabSet > 0) {
+        if (this.tabIdReadySet.size > 0 && this.tabIdOpenSet.size > 0) {
             this.unping();
             this.ping();
         }
