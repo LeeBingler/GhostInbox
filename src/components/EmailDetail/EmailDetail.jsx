@@ -11,6 +11,8 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
     const { data, error, sendMessage, resetAll} = useSendMessage("GET_MESSAGE");
 
     useEffect(() => {
+        if (!emailIDClicked) return;
+
         sendMessage({id: emailIDClicked});
     }, [emailIDClicked]);
 
