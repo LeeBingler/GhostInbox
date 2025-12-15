@@ -9,11 +9,13 @@ export default function useGenerateEmail() {
     const message = "GENERATE_EMAIL";
 
     useEffect(() => {
+        let isMounted = true;
+
         const sender = (msg) => {
             if (msg.type === "OPEN_SIDEBAR") {
                 sendMessageAsync({type: "GET_CURRENT_MAIL"})
                 .then(res => {
-                    if (res.status) {
+                    if (isMounted && res.status) {
                         setData(res.data);
                     }
                 })
@@ -21,7 +23,10 @@ export default function useGenerateEmail() {
         };
 
         chrome.runtime.onMessage.addListener(sender);
-        return () => chrome.runtime.onMessage.removeListener(sender);
+        return () => {
+            isMounted = false;
+            chrome.runtime.onMessage.removeListener(sender);
+        }
     }, []);
 
     async function sendMessage(data = null) {
