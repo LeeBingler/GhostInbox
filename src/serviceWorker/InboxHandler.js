@@ -31,14 +31,12 @@ class InboxHandler {
             Mailjs.listenInbox()
                 .then(res => {
                     this.dataInbox = res.data;
-                    console.log("---interval ping---");
-                    this.tabIdReadySet.forEach(tabId => {
+                    this.getActiveTabs().forEach(tabId => {
                         chrome.tabs.sendMessage(tabId, { type: "INBOX_UPDATE", response: res });
-                        console.log(tabId, res)
                     });
                 })
                 .catch(err => {
-                    this.tabIdReadySet.forEach(tabId => {
+                    this.getActiveTabs().forEach(tabId => {
                         chrome.tabs.sendMessage(tabId, { type: "INBOX_ERROR", response: err });
                     });
                 });
