@@ -9,13 +9,15 @@ export default function useGenerateEmail() {
     const message = "GENERATE_EMAIL";
 
     useEffect(() => {
-        const sender = () => {
-            sendMessageAsync({type: "GET_CURRENT_MAIL"})
+        const sender = (msg) => {
+            if (msg.type === "OPEN_SIDEBAR") {
+                sendMessageAsync({type: "GET_CURRENT_MAIL"})
                 .then(res => {
                     if (res.status) {
                         setData(res.data);
                     }
                 })
+            }
         };
 
         chrome.runtime.onMessage.addListener(sender);
@@ -30,6 +32,7 @@ export default function useGenerateEmail() {
         console.log(message, response);
         if (response.status) {
             setData(response.data);
+            console.log("data sendMessage");
         } else {
             setError(response.message || "Unknown error");
         }

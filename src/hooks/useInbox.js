@@ -6,6 +6,8 @@ export default function useInbox(isDelete) {
     useEffect(() => {
         const listener = (msg) => {
             if (msg.type === "INBOX_UPDATE" || msg.type === "INBOX_ERROR") {
+                if (!msg.response.data) return false;
+
                 setDataInbox(prev => {
                     const oldLen = prev?.length ?? 0;
                     const newLen = msg.response.data.length;

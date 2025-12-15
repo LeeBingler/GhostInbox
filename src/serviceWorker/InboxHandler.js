@@ -2,20 +2,28 @@ import Mailjs from "./Mailjs";
 
 class InboxHandler {
     constructor() {
-        this.emailSet = false;
         this.interval = null;
         this.dataInbox = null;
-        this.tabId = null;
+        this.tabIdReadySet = null;
+        this.tabIdOpenSet = null;
+        this.activeTab = null;
     }
 
-    setInboxHandler(tabID) {
-        this.setTabID(tabID);
-        this.unping();
-        this.ping();
+    setInboxReadyTabSet(setTab) {
+        this.tabIdReadySet = setTab;
+    }
+
+    setInboxOpenTabsSet(setTab) {
+        this.tabIdOpenSet = setTab;
     }
 
     setTabID(tabID) {
         this.tabId = tabID;
+    }
+
+    getActiveTabs() {
+        return [...this.tabIdReadySet]
+            .filter(tabId => this.tabIdOpenSet.has(tabId));
     }
 
     ping() {
@@ -23,10 +31,14 @@ class InboxHandler {
             Mailjs.listenInbox()
                 .then(res => {
                     this.dataInbox = res.data;
-                    chrome.tabs.sendMessage(this.tabId, { type: "INBOX_UPDATE", response: res });
+                    this.getActiveTabs().forEach(tabId => {
+                        chrome.tabs.sendMessage(tabId, { type: "INBOX_UPDATE", response: res });
+                    });
                 })
                 .catch(err => {
-                    chrome.tabs.sendMessage(this.tabId, { type: "INBOX_ERROR", response: err });
+                    this.getActiveTabs().forEach(tabId => {
+                        chrome.tabs.sendMessage(tabId, { type: "INBOX_ERROR", response: err });
+                    });
                 });
         }, 1000);
     }
@@ -34,6 +46,13 @@ class InboxHandler {
     unping() {
         if (this.interval)
             clearInterval(this.interval);
+    }
+
+    startInbox() {
+        if (this.tabIdReadySet.size > 0 && this.tabIdOpenSet.size > 0) {
+            this.unping();
+            this.ping();
+        }
     }
 }
 
