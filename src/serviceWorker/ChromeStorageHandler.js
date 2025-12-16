@@ -23,7 +23,7 @@ class ChromeStorageHandler {
     }
 
     clearStorage() {
-        chrome.storage.local.clear();
+        chrome.storage.local.remove(this.ghostInboxAccount);
     }
 }
 
