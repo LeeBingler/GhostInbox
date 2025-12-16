@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function useInbox(isDelete) {
+export default function useInbox() {
     const [dataInbox, setDataInbox] = useState([]);
 
     useEffect(() => {
@@ -24,11 +24,6 @@ export default function useInbox(isDelete) {
         chrome.runtime.onMessage.addListener(listener);
         return () => chrome.runtime.onMessage.removeListener(listener);
     }, []);
-
-    // Reset quand isDelete change
-    useEffect(() => {
-        setDataInbox([]);
-    }, [isDelete]);
 
     return { dataInbox, setDataInbox };
 }

@@ -5,9 +5,9 @@ import useInbox from "../../hooks/useInbox";
 
 import "./styles.css"
 
-export default function Inbox({isDelete, setEmailIDClicked}) {
+export default function Inbox({setEmailIDClicked}) {
     const { loading, error, sendMessage } = useSendMessage("LISTEN_INBOX");
-    const { dataInbox, setDataInbox } = useInbox(isDelete);
+    const { dataInbox, setDataInbox } = useInbox();
 
     return (
         <div className="inbox-container">

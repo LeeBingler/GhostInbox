@@ -21,7 +21,7 @@ export default function Sidebar() {
             <hr/>
             {
                 emailIDClicked === null ? 
-                <Inbox isDelete={isDelete} setEmailIDClicked={setEmailIDClicked}/> :
+                <Inbox key={isDelete ? "delete" : "active"} setEmailIDClicked={setEmailIDClicked}/> :
                 <EmailDetail emailIDClicked={emailIDClicked} setEmailIDClicked={setEmailIDClicked}/>
             }
             <hr/>
