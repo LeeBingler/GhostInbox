@@ -1,15 +1,9 @@
-import { useEffect } from "react";
-
 import useGenerateEmail from "../../hooks/useGenerateEmail";
 
 import "./styles.css"
 
-export default function GenerateEmail({isDelete}) {
-    const { data, loading, error, sendMessage, resetAll } = useGenerateEmail();
-
-    useEffect(() => {
-        resetAll();
-    }, [isDelete])
+export default function GenerateEmail() {
+    const { data, loading, error, sendMessage } = useGenerateEmail();
 
     return (
         <div className="generateEmail-container">

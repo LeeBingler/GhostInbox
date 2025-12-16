@@ -17,7 +17,7 @@ export default function Sidebar() {
     return (
         <div className={`sidebar-container${sidebarOpen ? " sidebar-open" : ""}`}>
             <h1>GhostInbox</h1>
-            <GenerateEmail isDelete={isDelete}/>
+            <GenerateEmail key={isDelete ? "delete" : "active"} isDelete={isDelete}/>
             <hr/>
             {
                 emailIDClicked === null ? 
