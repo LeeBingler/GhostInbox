@@ -37,7 +37,6 @@ export default function useGenerateEmail() {
         console.log(message, response);
         if (response.status) {
             setData(response.data);
-            console.log("data sendMessage");
         } else {
             setError(response.message || "Unknown error");
         }
