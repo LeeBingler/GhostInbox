@@ -1,5 +1,5 @@
-import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
+import { messageRouter } from "./MessageRouter";
 import ChromeStorageHandler from "./ChromeStorageHandler";
 import MailSessionService from "./MailSessionService";
 
@@ -38,64 +38,11 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     }
 });
 
-
 /* Message router */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === "GENERATE_EMAIL") {
-        Mailjs.createAccount()
-            .then((res) => {
-                sendResponse(res);
-                InboxHandler.startInbox();
-                ChromeStorageHandler.setStorage(res.data.address, res.data.password);
-            })
-            .catch(err => sendResponse(err));
+    const handler = messageRouter[message.type];
+    if (!handler) return;
 
-        return true;
-    }
-
-    if (message.type === "LISTEN_INBOX") {
-        Mailjs.listenInbox()
-            .then(res => sendResponse(res))
-            .catch(err => sendResponse(err));
-        return true;
-    }
-
-    if (message.type === "GET_MESSAGE") {
-        Mailjs.getMessage(message.data.id)
-            .then(res => sendResponse(res))
-            .catch(err => sendResponse(err));
-        return true;
-    }
-
-    if (message.type === "GET_ATTACHEMENT") {
-        Mailjs.getAttachementImage(message.data.link)
-            .then(res => sendResponse(res))
-            .catch(err => sendResponse(err));
-        return true;
-    }
-
-    if (message.type === "GET_CURRENT_MAIL") {
-        (async () => {
-            let res = await MailSessionService.restore();
-            sendResponse(res);
-
-            if (res.status) {
-                InboxHandler.startInbox();
-            }
-        })();
-
-        return true;
-    }
-
-    if (message.type === "DELETE_ACCOUNT") {
-        Mailjs.deleteMe()
-            .then((res) => {
-                sendResponse(res);
-                InboxHandler.unping();
-                MailSessionService.clear();
-            })
-            .catch(err => sendResponse(err));
-
-        return true
-    }
+    handler(message, sendResponse);
+    return true;
 });
