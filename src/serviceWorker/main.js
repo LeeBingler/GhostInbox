@@ -8,23 +8,26 @@ const openTabs = new Set();
 InboxHandler.setInboxReadyTabSet(readyTabs);
 InboxHandler.setInboxOpenTabsSet(openTabs);
 
+/* Startup */
 chrome.runtime.onStartup.addListener(() => {
     MailSessionService.restore();
 });
 
-// Handshake
+/* Handshake */
 chrome.runtime.onMessage.addListener((msg, sender) => {
     if (msg.type === "READY_FOR_EMAILS" && sender.tab?.id != null) {
         readyTabs.add(sender.tab.id);
     }
 });
 
+/* Action */
 chrome.action.onClicked.addListener((tab) => {
     if (!tab.id) return;
     chrome.tabs.sendMessage(tab.id, {type: "OPEN_SIDEBAR"});
     openTabs.add(tab.id);
 });
 
+/* Tabs lifecycle */
 chrome.tabs.onRemoved.addListener((tabId) => {
     readyTabs.delete(tabId);
     openTabs.delete(tabId);
@@ -35,7 +38,8 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     }
 });
 
-// Listener to receive for sidebar / content script
+
+/* Message router */
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "GENERATE_EMAIL") {
         Mailjs.createAccount()
