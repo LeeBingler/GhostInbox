@@ -1,5 +1,6 @@
 import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
+import ChromeStorageHandler from "./ChromeStorageHandler";
 
 const readyTabs = new Set();
 const openTabs = new Set();
