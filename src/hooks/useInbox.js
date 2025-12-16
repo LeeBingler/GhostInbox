@@ -4,7 +4,11 @@ export default function useInbox() {
     const [dataInbox, setDataInbox] = useState([]);
 
     useEffect(() => {
+        let isMounted = true;
+
         const listener = (msg) => {
+            if (!isMounted) return;
+
             if (msg.type === "INBOX_UPDATE" || msg.type === "INBOX_ERROR") {
                 if (!msg.response.data) return false;
 
@@ -22,7 +26,10 @@ export default function useInbox() {
         };
 
         chrome.runtime.onMessage.addListener(listener);
-        return () => chrome.runtime.onMessage.removeListener(listener);
+        return () => {
+            isMounted = false;
+            chrome.runtime.onMessage.removeListener(listener)
+        };
     }, []);
 
     return { dataInbox, setDataInbox };
