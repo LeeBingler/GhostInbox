@@ -7,6 +7,30 @@ const openTabs = new Set();
 InboxHandler.setInboxReadyTabSet(readyTabs);
 InboxHandler.setInboxOpenTabsSet(openTabs);
 
+async function restoreMailSession() {
+    let res = await ChromeStorageHandler.getStorage();
+    if (!res.status) return res;
+
+    let { address, password } = res.account.ghostInboxAccount;
+
+    let loginRes = await Mailjs.login(address, password);
+    if (!loginRes.status) return loginRes;
+
+    return {
+            status: true,
+            statusCode: loginRes.statusCode,
+            message: "ok",
+            data: {
+                address,
+                password,
+            },
+        };
+}
+
+chrome.runtime.onStartup.addListener(() => {
+    restoreMailSession();
+});
+
 // Handshake
 chrome.runtime.onMessage.addListener((msg, sender) => {
     if (msg.type === "READY_FOR_EMAILS" && sender.tab?.id != null) {
@@ -26,6 +50,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 
     if (readyTabs.size === 0 || openTabs.size === 0) {
         InboxHandler.unping();
+        ChromeStorageHandler.clearStorage();
     }
 });
 
@@ -36,6 +61,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((res) => {
                 sendResponse(res);
                 InboxHandler.startInbox();
+                ChromeStorageHandler.setStorage(res.data.address, res.data.password);
             })
             .catch(err => sendResponse(err));
 
@@ -64,12 +90,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === "GET_CURRENT_MAIL") {
-        let res = Mailjs.getEmail();
-        sendResponse(res);
+        (async () => {
+            let res = await restoreMailSession();
+            sendResponse(res);
 
-        if (res.status) {
-            InboxHandler.startInbox();
-        }
+            if (res.status) {
+                InboxHandler.startInbox();
+            }
+        })();
+
         return true;
     }
 
@@ -78,6 +107,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((res) => {
                 sendResponse(res);
                 InboxHandler.unping();
+                ChromeStorageHandler.clearStorage();
             })
             .catch(err => sendResponse(err));
 

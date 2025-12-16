@@ -9,21 +9,25 @@ class ChromeStorageHandler {
         });
     }
 
-    getStorage() {
-        let account = chrome.storage.local.get(this.keyAccount);
+    async getStorage() {
+        let account = await chrome.storage.local.get(this.keyAccount);
         let status = true;
+        let message = "ok"
 
-        if (!account)
+        if (!account || !account?.ghostInboxAccount || !account?.ghostInboxAccount?.address || !account?.ghostInboxAccount?.password) {
             status = false;
+            message = "no account found";
+        }
 
         return {
             status,
+            message,
             account
         }
     }
 
     clearStorage() {
-        chrome.storage.local.remove(this.ghostInboxAccount);
+        return chrome.storage.local.remove(this.ghostInboxAccount);
     }
 }
 
