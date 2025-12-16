@@ -21,6 +21,10 @@ class ChromeStorageHandler {
             account
         }
     }
+
+    clearStorage() {
+        chrome.storage.local.clear();
+    }
 }
 
 const chromeStorageHandler = new ChromeStorageHandler();
