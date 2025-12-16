@@ -1,34 +1,15 @@
 import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
 import ChromeStorageHandler from "./ChromeStorageHandler";
+import MailSessionService from "./MailSessionService";
 
 const readyTabs = new Set();
 const openTabs = new Set();
 InboxHandler.setInboxReadyTabSet(readyTabs);
 InboxHandler.setInboxOpenTabsSet(openTabs);
 
-async function restoreMailSession() {
-    let res = await ChromeStorageHandler.getStorage();
-    if (!res.status) return res;
-
-    let { address, password } = res.account.ghostInboxAccount;
-
-    let loginRes = await Mailjs.login(address, password);
-    if (!loginRes.status) return loginRes;
-
-    return {
-            status: true,
-            statusCode: loginRes.statusCode,
-            message: "ok",
-            data: {
-                address,
-                password,
-            },
-        };
-}
-
 chrome.runtime.onStartup.addListener(() => {
-    restoreMailSession();
+    MailSessionService.restore();
 });
 
 // Handshake
@@ -91,7 +72,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === "GET_CURRENT_MAIL") {
         (async () => {
-            let res = await restoreMailSession();
+            let res = await MailSessionService.restore();
             sendResponse(res);
 
             if (res.status) {
@@ -107,7 +88,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((res) => {
                 sendResponse(res);
                 InboxHandler.unping();
-                ChromeStorageHandler.clearStorage();
+                MailSessionService.clear();
             })
             .catch(err => sendResponse(err));
 
