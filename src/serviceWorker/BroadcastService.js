@@ -32,11 +32,11 @@ class BroadcastService {
         );
     }
 
-    send(type, payload) {
+    send(type, response) {
         this._getActiveTabs().forEach(tabId => {
             chrome.tabs.sendMessage(tabId, {
                 type,
-                payload,
+                response,
             });
         });
     }

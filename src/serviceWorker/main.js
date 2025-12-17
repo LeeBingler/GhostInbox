@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
 chrome.action.onClicked.addListener((tab) => {
     if (!tab.id) return;
     chrome.tabs.sendMessage(tab.id, {type: "OPEN_SIDEBAR"});
-    BroadcastService.register(TAB_STATES.OPEN, sender.tab.id);
+    BroadcastService.register(TAB_STATES.OPEN, tab.id);
 });
 
 /* Tabs lifecycle */

@@ -1,55 +1,41 @@
+import BroadcastService from "./BroadcastService";
 import Mailjs from "./Mailjs";
 
 class InboxHandler {
     constructor() {
         this.interval = null;
-        this.dataInbox = null;
-        this.tabIdReadySet = null;
-        this.tabIdOpenSet = null;
-        this.activeTab = null;
-    }
-
-    setInboxReadyTabSet(setTab) {
-        this.tabIdReadySet = setTab;
-    }
-
-    setInboxOpenTabsSet(setTab) {
-        this.tabIdOpenSet = setTab;
-    }
-
-    setTabID(tabID) {
-        this.tabId = tabID;
-    }
-
-    getActiveTabs() {
-        return [...this.tabIdReadySet]
-            .filter(tabId => this.tabIdOpenSet.has(tabId));
+        this.lastInbox = null;
     }
 
     ping() {
-        this.interval = setInterval(() => {
-            Mailjs.listenInbox()
-                .then(res => {
-                    this.dataInbox = res.data;
-                    this.getActiveTabs().forEach(tabId => {
-                        chrome.tabs.sendMessage(tabId, { type: "INBOX_UPDATE", response: res });
-                    });
-                })
-                .catch(err => {
-                    this.getActiveTabs().forEach(tabId => {
-                        chrome.tabs.sendMessage(tabId, { type: "INBOX_ERROR", response: err });
-                    });
-                });
+        this.interval = setInterval(async () => {
+            try {
+                const res = await Mailjs.listenInbox();
+                const newInbox = res.data;
+
+                if (!newInbox) return;
+
+                if (!this.lastInbox || newInbox.length > this.lastInbox.length) {
+                    this.lastInbox = newInbox;
+
+                    BroadcastService.send("INBOX_UPDATE", res);
+                }
+            } catch (err) {
+                BroadcastService.send("INBOX_ERROR", err);
+            }
         }, 1000);
     }
 
     unping() {
-        if (this.interval)
+        if (this.interval) {
             clearInterval(this.interval);
+            this.interval = null;
+            this.lastInbox = null;
+        }
     }
 
     startInbox() {
-        if (this.tabIdReadySet.size > 0 && this.tabIdOpenSet.size > 0) {
+        if (BroadcastService.tabs.ready.size > 0 && BroadcastService.tabs.open.size > 0) {
             this.unping();
             this.ping();
         }
