@@ -4,25 +4,13 @@ import Mailjs from "./Mailjs";
 class InboxHandler {
     constructor() {
         this.interval = null;
-        this.lastInbox = null;
     }
 
     ping() {
         this.interval = setInterval(async () => {
-            try {
-                const res = await Mailjs.listenInbox();
-                const newInbox = res.data;
-
-                if (!newInbox) return;
-
-                if (!this.lastInbox || newInbox.length > this.lastInbox.length) {
-                    this.lastInbox = newInbox;
-
-                    BroadcastService.send("INBOX_UPDATE", res);
-                }
-            } catch (err) {
-                BroadcastService.send("INBOX_ERROR", err);
-            }
+            Mailjs.listenInbox()
+                .then(res => BroadcastService.send("INBOX_UPDATE", res))
+                .catch(err => BroadcastService.send("INBOX_ERROR", err));
         }, 1000);
     }
 
@@ -30,7 +18,6 @@ class InboxHandler {
         if (this.interval) {
             clearInterval(this.interval);
             this.interval = null;
-            this.lastInbox = null;
         }
     }
 
