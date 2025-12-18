@@ -103,7 +103,6 @@ class MailApiClient {
         if (!this.address || !this.id || !this.token || !link)
             throw new Error("Mailbox not initialized");
         const res = await this._send(link);
-        console.log("getAttachmentImage res", res);
         return res;
     }
 
