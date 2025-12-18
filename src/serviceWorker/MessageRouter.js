@@ -22,7 +22,7 @@ export const messageRouter = {
     },
 
     async LISTEN_INBOX(_, sendResponse) {
-        sendResponse(await MailApiClient.listenInbox());
+        sendResponse(await MailApiClient.getInbox());
     },
 
     async GET_MESSAGE(message, sendResponse) {

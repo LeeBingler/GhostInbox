@@ -85,7 +85,7 @@ class MailApiClient {
         };
     }
 
-    async listenInbox() {
+    async getInbox() {
         if (!this.address || !this.id || !this.token)
             throw new Error("Mailbox not initialized");
         const res = await this._send("/messages");
