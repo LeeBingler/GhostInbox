@@ -21,7 +21,7 @@ class InboxPoller {
         }
     }
 
-    startInbox() {
+    startPolling() {
         if (BroadcastService.tabs.ready.size > 0 && BroadcastService.tabs.open.size > 0) {
             this.unping();
             this.ping();

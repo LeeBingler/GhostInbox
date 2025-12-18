@@ -9,7 +9,7 @@ export const messageRouter = {
         const res = await MailApiClient.createAccount();
         if (res.status) {
             await ChromeStorageHandler.setStorage(res.data.address, res.data.password);
-            InboxPoller.startInbox();
+            InboxPoller.startPolling();
         }
         BroadcastService.send("GENERATED_EMAIL_ON_OTHER_TAB", res);
         sendResponse(res);
@@ -17,7 +17,7 @@ export const messageRouter = {
 
     async GET_CURRENT_MAIL(_, sendResponse) {
         const res = await MailSessionService.restore();
-        if (res.status) InboxPoller.startInbox();
+        if (res.status) InboxPoller.startPolling();
         sendResponse(res);
     },
 
