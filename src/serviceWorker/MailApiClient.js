@@ -1,11 +1,11 @@
 import blobToBase64 from "../utils/blobToBase64";
 
-class Mailjs {
+class MailApiClient {
     constructor() {
         // Make this class a singleton
-        if (Mailjs._instance)
-            return Mailjs._instance;
-        Mailjs._instance = this;
+        if (MailApiClient._instance)
+            return MailApiClient._instance;
+        MailApiClient._instance = this;
 
 
         this.baseUrl = "https://api.mail.tm";
@@ -158,5 +158,5 @@ class Mailjs {
     }
 }
 
-let mailjs = new Mailjs();
-export default mailjs; 
+let mailapiclient = new MailApiClient();
+export default mailapiclient;

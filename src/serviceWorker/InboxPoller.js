@@ -1,14 +1,14 @@
 import BroadcastService from "./BroadcastService";
-import Mailjs from "./Mailjs";
+import MailApiClient from "./MailApiClient";
 
-class InboxHandler {
+class InboxPoller {
     constructor() {
         this.interval = null;
     }
 
     ping() {
         this.interval = setInterval(async () => {
-            Mailjs.listenInbox()
+            MailApiClient.listenInbox()
                 .then(res => BroadcastService.send("INBOX_UPDATE", res))
                 .catch(err => BroadcastService.send("INBOX_ERROR", err));
         }, 1000);
@@ -29,5 +29,5 @@ class InboxHandler {
     }
 }
 
-let inboxhandler = new InboxHandler();
-export default inboxhandler;
+let inboxpoller = new InboxPoller();
+export default inboxpoller;

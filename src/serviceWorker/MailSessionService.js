@@ -1,4 +1,4 @@
-import Mailjs from "./Mailjs";
+import MailApiClient from "./MailApiClient";
 import ChromeStorageHandler from "./ChromeStorageHandler";
 
 class MailSessionService {
@@ -16,7 +16,7 @@ class MailSessionService {
             };
         }
 
-        const loginRes = await Mailjs.login(account.address, account.password);
+        const loginRes = await MailApiClient.login(account.address, account.password);
         if (!loginRes.status) return loginRes;
 
         return {

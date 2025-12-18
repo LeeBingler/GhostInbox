@@ -1,4 +1,4 @@
-import InboxHandler from "./InboxHandler";
+import InboxPoller from "./InboxPoller";
 import { messageRouter } from "./MessageRouter";
 import ChromeStorageHandler from "./ChromeStorageHandler";
 import MailSessionService from "./MailSessionService";
@@ -29,7 +29,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     BroadcastService.unregister(TAB_STATES.OPEN, tabId);
 
     if (readyTabs.size === 0 || openTabs.size === 0) {
-        InboxHandler.unping();
+        InboxPoller.unping();
         ChromeStorageHandler.clearStorage();
     }
 });
