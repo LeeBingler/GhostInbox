@@ -2,6 +2,7 @@ import Mailjs from "./Mailjs";
 import InboxHandler from "./InboxHandler";
 import ChromeStorageHandler from "./ChromeStorageHandler";
 import MailSessionService from "./MailSessionService";
+import BroadcastService from "./BroadcastService";
 
 export const messageRouter = {
     async GENERATE_EMAIL(_, sendResponse) {
@@ -10,6 +11,7 @@ export const messageRouter = {
             await ChromeStorageHandler.setStorage(res.data.address, res.data.password);
             InboxHandler.startInbox();
         }
+        BroadcastService.send("GENERATED_EMAIL_ON_OTHER_TAB", res);
         sendResponse(res);
     },
 
@@ -35,6 +37,7 @@ export const messageRouter = {
         const res = await Mailjs.deleteMe();
         InboxHandler.unping();
         await ChromeStorageHandler.clearStorage();
+        BroadcastService.send("DELETED_ACCOUNT_ON_OTHER_TAB", res);
         sendResponse(res);
     }
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DeleteButton from '../../components/DeleteButton/DeleteButton';
 import GenerateEmail from '../../components/GenerateEmail/GenerateEmail';
 import EmailDetail from '../../components/EmailDetail/EmailDetail';
@@ -15,10 +15,25 @@ export default function Sidebar() {
     const [emailIDClicked, setEmailIDClicked] = useState(null);
     const [resetKey, setResetKey] = useState(0);
 
+    const resetUI = () => {
+            setEmailIDClicked(null);
+            setResetKey(prev => prev + 1);
+    }
+
+    useEffect(() => {
+        const listener = (msg) => {
+            if (msg.type === "DELETED_ACCOUNT_ON_OTHER_TAB") {
+                resetUI();
+            }
+        }
+
+        chrome.runtime.onMessage.addListener(listener);
+        return () => chrome.runtime.onMessage.removeListener(listener);
+    }, []);
+
     const handleDelete = async () => {
         await sendMessage();
-        setEmailIDClicked(null);
-        setResetKey(prev => prev + 1);
+        resetUI();
     };
 
     return (

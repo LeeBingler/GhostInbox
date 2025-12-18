@@ -12,7 +12,9 @@ export default function useGenerateEmail() {
         let isMounted = true;
 
         const sender = (msg) => {
-            if (msg.type === "OPEN_SIDEBAR") {
+            if (msg.type === "OPEN_SIDEBAR" || // Send message when the sidebar is open
+                msg.type === "GENERATED_EMAIL_ON_OTHER_TAB" // Send message when an email is generate in another tab
+            ) {
                 sendMessageAsync({type: "GET_CURRENT_MAIL"})
                 .then(res => {
                     if (isMounted && res.status) {
