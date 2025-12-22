@@ -11,6 +11,7 @@ export const messageRouter = {
             await ChromeStorageHandler.setStorage(res.data.address, res.data.password);
             InboxPoller.startPolling();
         }
+        delete res.data.password;
         BroadcastService.send("GENERATED_EMAIL_ON_OTHER_TAB", res);
         sendResponse(res);
     },

@@ -1,4 +1,5 @@
 import useGenerateEmail from "../../hooks/useGenerateEmail";
+import CopyClipboardButton from "./CopyClipboardButton";
 
 import "./styles.css"
 
@@ -12,12 +13,10 @@ export default function GenerateEmail() {
             </button>
 
             {data && (
-                <div>
+                <div className="generateEmail-datacontainer">
+                    <CopyClipboardButton email={data.address}/>
                     <p className="email">
                         <strong>Email :</strong> {data.address}
-                    </p>
-                    <p className="password">
-                        <strong>Password :</strong> {data.password}
                     </p>
                 </div>
             )}
