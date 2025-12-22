@@ -43,6 +43,10 @@
     font-weight: bold;
 }
 
+.mailpreview-card .date {
+    width: fit-content;
+}
+
 .mailpreview-card .intro {
     color: #a5a5a5
 }

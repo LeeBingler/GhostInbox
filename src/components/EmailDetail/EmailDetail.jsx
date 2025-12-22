@@ -25,7 +25,7 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
             {data && (
                 <div className="maildetail-container">
                     <div className="maildetail-header">
-                        <h2>Subject: {data.subject}</h2>
+                        <h3 className="subject">Subject: {data.subject}</h3>
                         <button onClick={() => {
                             setEmailIDClicked(null);
                             resetAll();
@@ -35,8 +35,14 @@ export default function EmailDetail({emailIDClicked, setEmailIDClicked}) {
                     </div>
                     <div className="maildetail-info">
                         <div>
-                            <p className="from">From: {data.from.name}</p>
-                            <p>Address: {data.from.address}</p>
+                            <p className="from">
+                                <strong>From: </strong>
+                                 {data.from.name}
+                            </p>
+                            <p className="address">
+                                <strong>Address: </strong>
+                                {data.from.address}
+                            </p>
                         </div>
                         <p className="date">{formatDate(data.createdAt)}</p>
                     </div>
