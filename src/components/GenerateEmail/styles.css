@@ -13,7 +13,7 @@
     gap: 15px;
 }
 
-.generateEmail-container button {
+.generateEmail-container generateEmail-button {
     width: 100%;
 }
 
