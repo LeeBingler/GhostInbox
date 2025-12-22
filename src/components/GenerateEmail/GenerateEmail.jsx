@@ -16,9 +16,6 @@ export default function GenerateEmail() {
                     <p className="email">
                         <strong>Email :</strong> {data.address}
                     </p>
-                    <p className="password">
-                        <strong>Password :</strong> {data.password}
-                    </p>
                 </div>
             )}
 
