@@ -8,7 +8,7 @@ class InboxPoller {
 
     ping() {
         this.interval = setInterval(async () => {
-            MailApiClient.listenInbox()
+            MailApiClient.getInbox()
                 .then(res => BroadcastService.send("INBOX_UPDATE", res))
                 .catch(err => BroadcastService.send("INBOX_ERROR", err));
         }, 1000);
