@@ -68,6 +68,8 @@
     margin: 0px;
 
     border-radius: 10px;
+
+    text-overflow: unset;
 }
 
 .sidebar-container .title {
