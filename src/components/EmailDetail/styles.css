@@ -30,6 +30,7 @@
 
 .maildetail-container .maildetail-html {
     background-color: rgb(17, 17, 17);
+    min-height: 30px;
 }
 
 .maildetail-container .maildetail-html a {
