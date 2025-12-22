@@ -38,15 +38,15 @@ export default function Sidebar() {
 
     return (
         <div className={`sidebar-container${sidebarOpen ? " sidebar-open" : ""}`}>
-            <h1>GhostInbox</h1>
+            <h1 className='title'>GhostInbox</h1>
             <GenerateEmail key={`generate-${resetKey}`}/>
-            <hr/>
+            <hr className='line'/>
             {
                 emailIDClicked === null ? 
                 <Inbox key={`inbox-${resetKey}`} setEmailIDClicked={setEmailIDClicked}/> :
                 <EmailDetail emailIDClicked={emailIDClicked} setEmailIDClicked={setEmailIDClicked}/>
             }
-            <hr/>
+            <hr className='line'/>
             <DeleteButton deleteAccount={handleDelete} />
         </div>
     )

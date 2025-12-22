@@ -10,9 +10,13 @@
 .generateEmail-container .generateEmail-datacontainer {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 15px;
 }
 
 .generateEmail-datacontainer .email {
     height: fit-content;
+}
+
+.generateEmail-datacontainer .email strong {
+    font-weight: bold;
 }

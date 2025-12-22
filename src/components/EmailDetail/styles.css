@@ -20,8 +20,25 @@
     font-weight: bold;
 }
 
+.maildetail-info .date {
+    width: fit-content;
+}
+
+.maildetail-info strong {
+    font-weight: bold;
+}
+
 .maildetail-container .maildetail-html {
     background-color: rgb(17, 17, 17);
+}
+
+.maildetail-container .maildetail-html a {
+    color: blue;
+    text-decoration: underline;
+}
+
+.maildetail-container .maildetail-html a:hover {
+    color: rgb(89, 89, 245);
 }
 
 .maildetail-container .maildetail-header button {

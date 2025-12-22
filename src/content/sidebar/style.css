@@ -2,7 +2,7 @@
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
-    font-size: 1em;
+    font-size: 16px;
     font-weight: 500;
     font-family: inherit;
     background-color: #1a1a1a;
@@ -53,18 +53,56 @@
 
 .sidebar-container * {
     color: #fff;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: medium;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
     padding: 0px;
     margin: 0px;
+
     border-radius: 10px;
 }
 
-.sidebar-container h1 {
+.sidebar-container .title {
     text-align: center;
     padding-bottom: 10px;
+
+    display: block;
+    font-size: 37px;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
 }
 
-.sidebar-container hr {
+.sidebar-container h2 {
+    font-size: 1.7em;
+}
+
+.sidebar-container h3 {
+    font-size: 1.5em;
+}
+
+.sidebar-container .line {
     margin: 10px 0px;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid;
+    padding: 0;
+
+    color: white;
+    border-color: white;
+    background-color: white;
 }
 
 
