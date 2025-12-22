@@ -14,7 +14,7 @@ export default function GenerateEmail() {
 
             {data && (
                 <div className="generateEmail-datacontainer">
-                    <CopyClipboardButton email={data.address}/>
+                    <CopyClipboardButton data={data.address}/>
                     <p className="email">
                         <strong>Email :</strong> {data.address}
                     </p>
