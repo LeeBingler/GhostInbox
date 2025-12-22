@@ -28,7 +28,7 @@ chrome.tabs.onRemoved.addListener((tabId) => {
     BroadcastService.unregister(TAB_STATES.READY, tabId);
     BroadcastService.unregister(TAB_STATES.OPEN, tabId);
 
-    if (readyTabs.size === 0 || openTabs.size === 0) {
+    if (BroadcastService.tabs.ready.size === 0 || BroadcastService.tabs.open.size === 0) {
         InboxPoller.unping();
         ChromeStorageHandler.clearStorage();
     }
