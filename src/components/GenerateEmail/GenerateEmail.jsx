@@ -8,7 +8,7 @@ export default function GenerateEmail() {
 
     return (
         <div className="generateEmail-container">
-            <button disabled={loading} onClick={() => sendMessage()}>
+            <button disabled={loading} onClick={() => sendMessage()} className="generateEmail-button">
                 {loading ? "Generating..." : "Generate Email"}
             </button>
 
