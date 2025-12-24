@@ -9,6 +9,7 @@ export default defineManifest({
     24: 'icons/icon24.png',
     48: 'icons/icon48.png',
     96: 'icons/icon96.png',
+    128: 'icons/icon128.png'
   },
   permissions: [
     "tabs",
@@ -19,11 +20,12 @@ export default defineManifest({
       24: 'icons/icon24.png',
       48: 'icons/icon48.png',
       96: 'icons/icon96.png',
+      128: 'icons/icon128.png'
     },
   },
   content_scripts: [{
     js: ['src/content/main.jsx'],
-    matches: ['https://*/*'],
+    matches: ['<all_urls>'],
   }],
   background: {
     service_worker: 'src/serviceWorker/main.js',

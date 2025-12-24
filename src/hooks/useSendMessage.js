@@ -12,7 +12,6 @@ export default function useSendMessage(message) {
         setError(null);
 
         const response = await sendMessageAsync({ type: message, data: data });
-        console.log(message, response);
         if (response.status) {
             setData(response.data);
         } else {
