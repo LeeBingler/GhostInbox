@@ -12,7 +12,6 @@ export default defineManifest({
     128: 'icons/icon128.png'
   },
   permissions: [
-    "tabs",
     "storage"
   ],
   action: {
